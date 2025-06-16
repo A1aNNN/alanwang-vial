@@ -6,6 +6,7 @@ import {
   ICreateQueryRequest,
   IQueryResponse,
   IUpdateQueryRequest,
+  QueryStatus,
 } from './schemas/query.interface'
 
 async function queryRoutes(app: FastifyInstance) {
@@ -40,7 +41,10 @@ async function queryRoutes(app: FastifyInstance) {
           },
         })
 
-        reply.code(201).send(query)
+        reply.code(201).send({
+          ...query,
+          status: query.status as QueryStatus,
+        })
       } catch (err: any) {
         log.error({ err }, err.message)
         throw new ApiError('Failed to create query', 400)
@@ -69,7 +73,10 @@ async function queryRoutes(app: FastifyInstance) {
           },
         })
 
-        reply.send(query)
+        reply.send({
+          ...query,
+          status: query.status as QueryStatus,
+        })
       } catch (err: any) {
         log.error({ err }, err.message)
         throw new ApiError('Failed to update query', 400)
