@@ -15,3 +15,8 @@ export interface IQueryResponse {
   status: QueryStatus
   formDataId: string
 }
+
+export interface IUpdateQueryRequest {
+  description?: string | null
+  status?: QueryStatus
+}
