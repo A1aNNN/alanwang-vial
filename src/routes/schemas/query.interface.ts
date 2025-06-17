@@ -17,6 +17,5 @@ export interface IQueryResponse {
 }
 
 export interface IUpdateQueryRequest {
-  description?: string | null
-  status?: 'OPEN' | 'RESOLVED'
+  status: 'RESOLVED'
 }

@@ -62,13 +62,11 @@ async function queryRoutes(app: FastifyInstance) {
       log.debug('update query')
       try {
         const { id } = req.params
-        const { description, status } = req.body
 
         const query = await prisma.query.update({
           where: { id },
           data: {
-            description,
-            status,
+            status: 'RESOLVED',
             updatedAt: new Date(),
           },
         })
