@@ -11,6 +11,13 @@ To run this project locally:
   - `npm start`
 - Frontend can be accessed at http://localhost:3000/
 
+## Demo
+ 
+
+https://github.com/user-attachments/assets/350cc684-1714-497e-a282-4bd5d41f5c69
+
+
+
 
 ## Getting Started
 - copy the .env.example file into a .env file
