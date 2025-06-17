@@ -31,6 +31,7 @@ const QueryDetailsModal: React.FC<QueryDetailsModalProps> = ({
   onQueryUpdated,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const query = formData.queries[0]
   const toast = useToast()
 
@@ -72,6 +73,38 @@ const QueryDetailsModal: React.FC<QueryDetailsModalProps> = ({
       })
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    setIsDeleting(true)
+    try {
+      const response = await fetch(
+        `http://localhost:8080/queries/${query.id}`,
+        {
+          method: 'DELETE',
+        }
+      )
+      if (!response.ok) {
+        throw new Error('Failed to delete query')
+      }
+      toast({
+        description: 'Query deleted.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+      onQueryUpdated()
+      onClose()
+    } catch (error) {
+      toast({
+        description: 'Something went wrong',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
+    } finally {
+      setIsDeleting(false)
     }
   }
 
@@ -122,6 +155,15 @@ const QueryDetailsModal: React.FC<QueryDetailsModalProps> = ({
                 Resolve Query
               </Button>
             )}
+            <Button
+              colorScheme="red"
+              onClick={handleDelete}
+              isLoading={isDeleting}
+              width="full"
+              mt={2}
+            >
+              Delete Query
+            </Button>
           </VStack>
         </ModalBody>
       </ModalContent>
