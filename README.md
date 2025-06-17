@@ -1,5 +1,17 @@
 # take-home-assignment-A
 
+## Alan's Submission
+
+To run this project locally:
+
+- Reference the **Getting Started** section below to ensure you have the correct `.env` file, Docker is running, and the data table is populated.
+- Then, to start the frontend:
+  - `cd frontend/`
+  - `npm install`
+  - `npm start`
+- Frontend can be accessed at http://localhost:3000/
+
+
 ## Getting Started
 - copy the .env.example file into a .env file
 - `docker-compose build`
