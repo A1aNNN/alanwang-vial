@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormData } from '../types'
 import {
   Table,
@@ -12,6 +12,8 @@ import {
   Box,
 } from '@chakra-ui/react'
 import { AddIcon, QuestionIcon, CheckIcon } from '@chakra-ui/icons'
+import QueryDetailsModal from './QueryDetailsModal'
+import CreateQueryModal from './CreateQueryModal'
 
 interface FormDataTableProps {
   formData: FormData[]
@@ -19,13 +21,25 @@ interface FormDataTableProps {
   onQueryUpdated: () => void
 }
 
-const FormDataTable: React.FC<FormDataTableProps> = ({ formData }) => {
+const FormDataTable: React.FC<FormDataTableProps> = ({
+  formData,
+  onQueryCreated,
+  onQueryUpdated,
+}) => {
+  const [selectedFormData, setSelectedFormData] = useState<FormData | null>(
+    null
+  )
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
+
   const handleCreateQuery = (formData: FormData) => {
-    //todo
+    setSelectedFormData(formData)
+    setIsCreateModalOpen(true)
   }
 
   const handleViewQuery = (formData: FormData) => {
-    //todo
+    setSelectedFormData(formData)
+    setIsDetailsModalOpen(true)
   }
 
   const getQueryStatusIcon = (status: string) => {
@@ -84,6 +98,40 @@ const FormDataTable: React.FC<FormDataTableProps> = ({ formData }) => {
           ))}
         </Tbody>
       </Table>
+
+      {selectedFormData && isCreateModalOpen && (
+        <CreateQueryModal
+          isOpen={isCreateModalOpen}
+          onClose={() => {
+            setIsCreateModalOpen(false)
+            setSelectedFormData(null)
+          }}
+          formData={selectedFormData}
+          onQueryCreated={() => {
+            setIsCreateModalOpen(false)
+            setSelectedFormData(null)
+            onQueryCreated()
+          }}
+        />
+      )}
+
+      {selectedFormData &&
+        isDetailsModalOpen &&
+        selectedFormData.queries.length > 0 && (
+          <QueryDetailsModal
+            isOpen={isDetailsModalOpen}
+            onClose={() => {
+              setIsDetailsModalOpen(false)
+              setSelectedFormData(null)
+            }}
+            formData={selectedFormData}
+            onQueryUpdated={() => {
+              setIsDetailsModalOpen(false)
+              setSelectedFormData(null)
+              onQueryUpdated()
+            }}
+          />
+        )}
     </Box>
   )
 }
